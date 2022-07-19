@@ -627,3 +627,169 @@ const findMinOperations = (nums = [], target) => {
   return result;
 };
 // console.log(findMinOperations([1, 0, 1, 0, 0, 0], 3));
+
+let findsum = (nums = [], k) => {
+  let partialTotal = 0;
+  let lastKthel = 0;
+  for (let index = 0; index < nums.length; index++) {
+    if (index >= nums.length - k) {
+      lastKthel += nums[index];
+    }
+    partialTotal += nums[index];
+  }
+
+  console.log(partialTotal + lastKthel);
+};
+
+// function fourSum(target, nums = []) {}
+
+let solution = (a = []) => {
+  let b = [...a];
+  for (let i = 0; i < a.length; i++) {
+    if (a[i - 1] === undefined) {
+      b[i] = 0 + a[i + 1] + a[i];
+    } else if (a[i + 1] === undefined) {
+      b[i] = a[i - 1] + a[i] + 0;
+    } else {
+      b[i] = a[i - 1] + a[i] + a[i + 1];
+    }
+  }
+  return b;
+};
+// console.log(solution([4, 0, 1, -2, 3]));
+const findLargeOccurance = (a = []) => {
+  let arrayStrings = [];
+  let hash = {};
+  let highcount = 0;
+  let result = [];
+  for (let i = 0; i < a.length; i++) {
+    let string = String(a[i]);
+    if (string.length > 1) {
+      arrayStrings = arrayStrings.concat(string.split(""));
+      let split = string.split("");
+      for (let j = 0; j < split.length; j++) {
+        hash[split[j]] = (hash[split[j]] || 0) + 1;
+      }
+    } else {
+      arrayStrings.push(string);
+      hash[string] = (hash[string] || 0) + 1;
+    }
+  }
+  let highest = Math.max(...Object.values(hash));
+  let keys = Object.keys(hash);
+  for (let i = 0; i < keys.length; i++) {
+    if (hash[keys[i]] === highest) {
+      result.push(keys[i]);
+    }
+  }
+  console.log(result.sort((a, b) => a - b));
+};
+// findLargeOccurance([25, 2, 3, 57, 38, 41]);
+
+function fourSum(nums = [], target) {
+  let result = [];
+  if (nums === null || nums.length < 4) {
+    return [];
+  }
+  let sorted = nums.sort((a, b) => a - b);
+  for (let i = 0; i < sorted.length - 3; i++) {
+    if (sorted[i] === sorted[i - 1]) {
+      continue;
+    }
+    for (let j = 0; j < sorted.length - 2; j++) {
+      if (sorted[j] === sorted[j - 1]) {
+        continue;
+      }
+
+      let twoSum = target - sorted[i] + sorted[j]; //two sum
+      if (twoSum < target) {
+        let high = sorted.length - 1;
+        let low = 0;
+        console.log(twoSum);
+
+        // while (low < high) {
+        //   if (low > 0 && sorted[low] === sorted[low - 1]) {
+        //     continue;
+        //   }
+        //   if (high < sorted.length - 1 && sorted[high] === sorted[high + 1]) {
+        //     continue;
+        //   }
+        //   if (sorted[low] + sorted[high] < twoSum) {
+        //     low++;
+        //   } else if (sorted[high] + sorted[low] > twoSum) {
+        //     high--;
+        //   } else {
+        //     result.push([sorted[i], sorted[j], sorted[low], sorted[high]]);
+        //     low++;
+        //     high--;
+        //   }
+        // }
+      }
+    }
+  }
+  console.log(result);
+}
+// fourSum([1, 0, -1, 0, -2, 2], 0);
+
+function letterComb(str = "") {
+  let letterMapping = {
+    0: "",
+    1: "",
+    2: "abc",
+    3: "def",
+    4: "ghi",
+    5: "jkl",
+    6: "mno",
+    7: "pqrs",
+    8: "tuv",
+    9: "wxyz",
+  };
+  let total = [];
+  for (let x = 0; x < str.length; x++) {
+    for (let i = 0; i < letterMapping[2].length; i++) {
+      for (let j = 0; j < letterMapping[3].length; j++) {
+        total.push(letterMapping[2][i] + letterMapping[3][j]);
+      }
+    }
+  }
+
+  console.log(total);
+}
+// letterComb("23");
+
+let hashMap = (queryMethod = [], queryitems = []) => {
+  let hash = {};
+  for (let i = 0; i < queryMethod.length; i++) {
+    if (queryMethod[i] === "insert") {
+      hash[queryitems[i][0]] = queryitems[i][1];
+    }
+    if (queryMethod[i] === "addToValue") {
+      for (let index in hash) {
+        if (index !== null) {
+          hash[index] = hash[index] + queryitems[i][0];
+        }
+      }
+    }
+    if (queryMethod[i] === "addToKey") {
+      let keys = Object.keys(hash);
+      if (hash[keys.length - 1] !== null) {
+        hash[keys.length + 1] = null;
+      }
+      let newKeys = Object.keys(hash);
+      let trackback = (current) => {
+        hash[newKeys[current]] = hash[newKeys[current - 1]];
+        if (current <= 0) return;
+        trackback(current - 1);
+      };
+      trackback(Object.keys(hash).length - 1);
+    }
+    if (queryMethod[i] === "get") {
+      let result = hash[queryitems[i]];
+      console.log(result);
+    }
+  }
+  console.log(hash);
+};
+let type = ["insert", "insert", "addToValue", "addToKey", "get"];
+let item = [[1, 2], [2, 3], [2], [1], [3]];
+hashMap(type, item);
