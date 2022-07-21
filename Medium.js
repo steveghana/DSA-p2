@@ -60,18 +60,15 @@ function intToRoman(num) {
     "CM",
     "M",
   ];
-
+  let sum = [];
   for (let i = 0; i < nums.length; i++) {
-    if (num === nums[i]) {
-      return Roma[i];
-    }
     if (num >= nums[i]) {
-      return Romans[i] + intToRoman(num - nums[i]);
+      return Roma[i] + intToRoman(num - nums[i]);
     }
   }
   return "";
 }
-// console.log(intToRoman(9));
+console.log(intToRoman(47));
 
 /*  round to 85 (85 - 84 is less than 3)
  do not round (result is less than 40)
@@ -143,7 +140,7 @@ function atoi(input) {
   console.log(Number.POSITIVE_INFINITY);
 }
 
-// atoi("493 with words");
+atoi("493 with words");
 function maxArea(nums) {
   let maxArea = 0,
     startIndex = 0,
@@ -792,4 +789,35 @@ let hashMap = (queryMethod = [], queryitems = []) => {
 };
 let type = ["insert", "insert", "addToValue", "addToKey", "get"];
 let item = [[1, 2], [2, 3], [2], [1], [3]];
-hashMap(type, item);
+// hashMap(type, item);
+
+const convertPaypalString = (string = "", rows) => {
+  let newArray = "";
+  for (let i = 0; i < rows; i++) {
+    let count = 0;
+    for (let j = 0; j < string.length; j++) {
+      let steps = (rows + 2) * count + i;
+      if (string[steps] && steps < string.length) {
+        if (i === 2) {
+          newArray += string[steps];
+          if (i > 0 && string[steps + 2]) {
+            newArray += string[steps + 2];
+          }
+          count++;
+        } else if (i === 3) {
+          newArray += string[steps];
+          count++;
+        } else {
+          if (i > 0 && string[steps - 2]) {
+            newArray += string[steps - 2];
+          }
+          newArray += string[steps];
+          count++;
+        }
+      }
+    }
+    newArray += "\n";
+  }
+  console.log(newArray);
+};
+// convertPaypalString("PAYPALISHIRING", 4);
