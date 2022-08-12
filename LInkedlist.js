@@ -17,10 +17,10 @@ class List {
     this.root = null;
     this.size = 0;
   }
-  addItems() {
-    const value = addTwoNums([243, 564]);
-    for (let i = 0; i < value.reverse().length; i++) {
-      let node = new Node(value[i], this.root);
+  addItems(data) {
+    // const value = addTwoNums([243, 564]);
+    for (let i = 0; i < data.length; i++) {
+      let node = new Node(data[i], this.root);
       this.root = node;
     }
   }
@@ -35,6 +35,19 @@ class List {
     }
     // console.log(prev);
   }
+  getAtIndex(index) {
+    let count = 1;
+
+    let current;
+    while (this.root !== null) {
+      if (count + 1 === index) {
+        // console.log(current)
+      }
+      current = this.root.next;
+      this.root = current;
+      count++;
+    }
+  }
   print() {
     let string = "";
     while (this.root !== null) {
@@ -47,6 +60,6 @@ class List {
 }
 
 const list = new List();
-list.addItems();
+list.addItems([1, 2, 3, 4, 5]);
 list.reverse();
 list.print();

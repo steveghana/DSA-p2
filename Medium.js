@@ -1,47 +1,38 @@
 //Longest substring without repeating characters
-function longSubString(str) {
-  let highTestCount = 0;
+function longSubString(str = "") {
   let hash = {};
+  let highestSubArray = Number.MIN_VALUE;
   for (let i = 0; i < str.length; i++) {
     if (!hash.hasOwnProperty(str[i])) {
       hash[str[i]] = str[i];
-      console.log(hash);
     } else {
-      let lengthOfKeys = Object.keys(hash).length;
-      if (lengthOfKeys > highTestCount) highTestCount = lengthOfKeys;
+      let lenthOfValues = Object.keys(hash).length;
+      highestSubArray = Math.max(highestSubArray, lenthOfValues);
       hash = {};
       hash[str[i]] = str[i];
     }
   }
-  console.log(hash);
-  console.log(highTestCount);
+  return highestSubArray;
 }
-// longSubString("pwwkew");
+// console.log(longSubString("pwwkew"));
 
 function longestPalindromSub(str) {
-  let highTestCount = 0;
-  let char = "";
   let hash = {};
+  let palindrom = [];
   for (let i = 0; i < str.length; i++) {
     if (hash.hasOwnProperty(str[i])) {
-      let lengthOfKeys = Object.keys(hash);
-      let sliced = lengthOfKeys
-        .slice(lengthOfKeys.indexOf(str[i]))
-        .concat(str[i]);
-      if (sliced[0] === str[i]) {
-        if (lengthOfKeys.length > highTestCount)
-          highTestCount = lengthOfKeys.length;
-        char = sliced.join(" ");
-        hash = {};
-        hash[str[i]] = str[i];
+      let keyLength = Object.keys(hash).length;
+      if (keyLength === 2) {
       }
+      palindrom.push(str[i], hash[str[i]]);
     } else {
       hash[str[i]] = str[i];
     }
   }
-  console.log(char);
+  // return palindrom;
+  console.log(palindrom);
 }
-// longestPalindromSub("babad");
+console.log(longestPalindromSub("babad"));
 
 function intToRoman(num) {
   let nums = [1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000];
@@ -68,7 +59,7 @@ function intToRoman(num) {
   }
   return "";
 }
-console.log(intToRoman(47));
+// console.log(intToRoman(47));
 
 /*  round to 85 (85 - 84 is less than 3)
  do not round (result is less than 40)
@@ -140,7 +131,7 @@ function atoi(input) {
   console.log(Number.POSITIVE_INFINITY);
 }
 
-atoi("493 with words");
+// atoi("493 with words");
 function maxArea(nums) {
   let maxArea = 0,
     startIndex = 0,
@@ -702,25 +693,28 @@ function fourSum(nums = [], target) {
       if (twoSum < target) {
         let high = sorted.length - 1;
         let low = 0;
-        console.log(twoSum);
+        console.log(sorted[i], sorted[j]);
 
-        // while (low < high) {
-        //   if (low > 0 && sorted[low] === sorted[low - 1]) {
-        //     continue;
-        //   }
-        //   if (high < sorted.length - 1 && sorted[high] === sorted[high + 1]) {
-        //     continue;
-        //   }
-        //   if (sorted[low] + sorted[high] < twoSum) {
-        //     low++;
-        //   } else if (sorted[high] + sorted[low] > twoSum) {
-        //     high--;
-        //   } else {
-        //     result.push([sorted[i], sorted[j], sorted[low], sorted[high]]);
-        //     low++;
-        //     high--;
-        //   }
-        // }
+        while (low < high) {
+          if (low > 0 && sorted[low] === sorted[low - 1]) {
+            continue;
+          }
+          if (high < sorted.length - 1 && sorted[high] === sorted[high + 1]) {
+            continue;
+          }
+          if (sorted[low] + sorted[high] === twoSum) {
+            result.push([sorted[i], sorted[j], sorted[low], sorted[high]]);
+            high--;
+            low++;
+          } else {
+            if (sorted[low] + sorted[high] > twoSum) {
+              high--;
+            }
+            if (sorted[low] + sorted[high] < twoSum) {
+              low++;
+            }
+          }
+        }
       }
     }
   }
@@ -743,13 +737,14 @@ function letterComb(str = "") {
   };
   let total = [];
   for (let x = 0; x < str.length; x++) {
-    for (let i = 0; i < letterMapping[2].length; i++) {
-      for (let j = 0; j < letterMapping[3].length; j++) {
-        total.push(letterMapping[2][i] + letterMapping[3][j]);
+    for (let i = 0; i < letterMapping[str[x]].length; i++) {
+      if (letterMapping[str[x + 1]]) {
+        for (let j = 0; j < letterMapping[str[x + 1]].length; j++) {
+          total.push(letterMapping[str[x]][i] + letterMapping[str[x + 1]][j]);
+        }
       }
     }
   }
-
   console.log(total);
 }
 // letterComb("23");
@@ -821,3 +816,38 @@ const convertPaypalString = (string = "", rows) => {
   console.log(newArray);
 };
 // convertPaypalString("PAYPALISHIRING", 4);
+const reduceString = (str = "") => {
+  let hash = {};
+  for (let i = 0; i < str.length; i++) {
+    if (hash[str[i]]) {
+      delete hash[str[i]];
+    } else {
+      hash[str[i]] = str[i];
+    }
+  }
+  return Object.keys(hash);
+};
+
+// console.log(reduceString("aaabccddd"));
+
+function superReducedString(str = "") {
+  let clonedString = [...str];
+  let count = 0;
+  let result = null;
+  let reduced = (newString, count) => {
+    if (count > newString.length) {
+      result = newString.join("");
+      return;
+    }
+    if (newString[count] === newString[count + 1]) {
+      delete newString[count];
+      delete newString[count + 1];
+      reduced(newString, count + 2);
+    } else {
+      reduced(newString, count + 1);
+    }
+  };
+  reduced(clonedString, count);
+  return result;
+}
+// console.log(superReducedString("aaabccddd"));
