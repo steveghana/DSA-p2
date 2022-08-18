@@ -851,3 +851,39 @@ function superReducedString(str = "") {
   return result;
 }
 // console.log(superReducedString("aaabccddd"));
+
+function SlavicMinimumSteps(
+  sum,
+  arr = [],
+  currentMinSteps = Number.MAX_VALUE,
+  steps = 0
+) {
+  let startIndex = 0;
+  let endIndex = arr.length - 1;
+  if (arr.length < 2 && arr[0] === sum) return sum; //O(i)
+  if (currentMinSteps < sum) return;
+  else if (currentMinSteps === sum) console.log(steps);
+  else if (currentMinSteps > sum) {
+    if (arr[endIndex] === 1) {
+      arr.pop();
+    } else if (arr[startIndex] === 1) {
+      arr.shift();
+    } else if (arr[startIndex] === 0) {
+      arr.shift();
+    } else if (arr[endIndex] === 0) {
+      arr.pop();
+    }
+    steps++;
+    currentMinSteps = getSum(arr);
+    SlavicMinimumSteps(sum, arr, currentMinSteps, steps);
+  }
+}
+SlavicMinimumSteps(2, [1, 1, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1]); //O (n2)
+
+function getSum(arr) {
+  let steps = 0;
+  for (let i = 0; i < arr.length; i++) {
+    steps += arr[i];
+  }
+  return steps;
+}
