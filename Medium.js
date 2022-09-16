@@ -293,6 +293,7 @@ function findRivers(str) {
 
   let hash = {};
   for (let i = 0; i < arr.length; i++) {
+    // [1,3].inclu
     // O(n)
     const sequence = (count) => {
       if (count >= arr.length) return;
@@ -878,7 +879,8 @@ function SlavicMinimumSteps(
     SlavicMinimumSteps(sum, arr, currentMinSteps, steps);
   }
 }
-SlavicMinimumSteps(2, [1, 1, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1]); //O (n2)
+let arrofNums = [1, 1, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1];
+// SlavicMinimumSteps(2, arrofNums); //O (n2)
 
 function getSum(arr) {
   let steps = 0;
@@ -887,3 +889,64 @@ function getSum(arr) {
   }
   return steps;
 }
+
+let nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+let i = [2, 1, 2, 3, 3, 4];
+/*
+iterate
+
+check if it exist in hash, if not push to first sub array 
+
+else push to right sub array
+
+check if one of subarrays exceed half the length of total el in array.
+ */
+const generateDistinct = (a) => {
+  let firstSubarray = [];
+  let secondSubarray = [];
+  let hash = {};
+  let half = Math.round(a.length / 2);
+  for (let i = 0; i < a.length; i++) {
+    //On
+    if (!hash.hasOwnProperty(a[i])) {
+      hash[a[i]] = a[i];
+      if (firstSubarray.length !== half) {
+        firstSubarray.push(a[i]);
+      } else {
+        secondSubarray.push(a[i]);
+      }
+    } else {
+      secondSubarray.push(a[i]);
+    }
+  }
+  if (secondSubarray.length === half) {
+    return [firstSubarray, secondSubarray];
+  } else return [];
+};
+// console.log(generateDistinct(i));
+
+const getSumOfNums = (firstNum = "", secondNum, thirdNum) => {
+  let num2 = Number(secondNum);
+  let num3 = Number(thirdNum);
+  let length = firstNum.length;
+  if (Number(firstNum) + num2 < num3) {
+    return false;
+  }
+
+  if (Number(firstNum) + num2 === num3) {
+    return true;
+  }
+  if (
+    (Number(firstNum) + num2 === num3 && firstNum[length - 1] === "0") ||
+    (Number(firstNum) + num2 === num3 && firstNum[0] === "0")
+  ) {
+    return false;
+  }
+  let first = firstNum.slice(1);
+  let last = firstNum.slice(0, length - 1);
+  let left = getSumOfNums(first, secondNum, thirdNum);
+  let right = getSumOfNums(last, secondNum, thirdNum);
+  return left || right;
+};
+
+console.log(getSumOfNums("1534", "64", "217"));
