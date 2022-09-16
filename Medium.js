@@ -924,7 +924,6 @@ const generateDistinct = (a) => {
   } else return [];
 };
 // console.log(generateDistinct(i));
-
 const getSumOfNums = (firstNum = "", secondNum, thirdNum) => {
   let num2 = Number(secondNum);
   let num3 = Number(thirdNum);
@@ -932,7 +931,6 @@ const getSumOfNums = (firstNum = "", secondNum, thirdNum) => {
   if (Number(firstNum) + num2 < num3) {
     return false;
   }
-
   if (Number(firstNum) + num2 === num3) {
     return true;
   }
