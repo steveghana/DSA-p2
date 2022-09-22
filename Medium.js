@@ -222,7 +222,10 @@ function phoneComb(str = "") {
 //kangaroo
 function kangaroo(x1, v1, x2, v2) {
   // Write your code here
-  let result = v2 < v1 && (x2 - x1) % (v1 - v2) === 0 ? "YES" : "NO";
+  let result =
+    v2 < v1 && (x2 - x1) % (v1 - v2) === 0
+      ? function sumDistinctInt() {}
+      : "NO";
   console.log(result);
   return result;
 }
@@ -563,7 +566,7 @@ let items = [
   [1, 0, 0, 0, 0, 1],
 ];
 // removeIslands(items);
-const jumpGame = (int = []) => {
+const jumpGame = (nt = []) => {
   let prevSteps = 0;
   let result;
   let found = false;
@@ -947,4 +950,91 @@ const getSumOfNums = (firstNum = "", secondNum, thirdNum) => {
   return left || right;
 };
 
-console.log(getSumOfNums("1534", "64", "217"));
+// console.log(getSumOfNums("1534", "64", "217"));
+let e =
+  "if man was meant to stay in the ground god would have given us 00 roots";
+/* 
+1. Trim the chars
+2. Count
+3. 
+
+*/
+
+const encrypt = (chars = "") => {
+  const trimed = chars.split(" ").join("").length;
+  let divisible = [];
+  for (let i = 0; i <= trimed; i++) {
+    if (trimed % i === 0) {
+      divisible.push(i);
+    }
+  }
+  console.log(divisible);
+};
+// encrypt(e);
+/* 
+
+
+*/
+function sumDistinctInt(str = []) {
+  let stack = [];
+  let total;
+  for (let i = 0; i < str.length; i++) {
+    for (let j = 0; j < str.length; j++) {
+      if (str[j] !== str[i]) {
+        stack.push(str[j]);
+      }
+      // if()
+      let lastChar = String(total).length - 1;
+      if (String(total)[lastChar] === "3") {
+        console.log("Yes");
+        return;
+      }
+    }
+  }
+  console.log("NO");
+}
+// sumDistinctInt([20, 22, 19, 84, 12]);
+
+function fizzBuzz() {
+  for (let i = 0; i < 100; i++) {
+    let result = "";
+    if (i % 5 === 0) result += "fizz";
+    if (i % 3 === 0) result += "Buzz";
+    if (result.length > 1 && result) {
+      console.log(result);
+    }
+  }
+}
+
+// fizzBuzz();
+function Item(nums, char) {
+  let item = searchRotated(nums, char);
+  console.log(item);
+  // if (item === -1) return item;
+  // return nums.indexOf(item);
+}
+
+function searchRotated(nums = [], char) {
+  /* 1. binary search */
+  let result;
+  let middle = Math.ceil(nums.length / 2) - 1;
+  // if (nums.length === 0) return -1;
+  if (nums[middle] === char) {
+    result = middle;
+  } else if (char > nums[middle]) {
+    let greater = nums.splice(middle + 1);
+    searchRotated(greater, char);
+  } else if (char < nums[middle] && char > nums[nums.length - 1]) {
+    let less = nums.splice(0, middle + 1);
+
+    searchRotated(less, char);
+  } else if (char < nums[middle] && char <= nums[nums.length - 1]) {
+    let greater = nums.splice(middle + 1);
+    searchRotated(greater, char);
+  } else {
+    return -1;
+  }
+  return result;
+}
+
+console.log(Item([4, 5, 6, 7, 0, 1, 2], 1));

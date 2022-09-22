@@ -103,4 +103,50 @@ const calcTimer = (nums) => {
   return timer;
 };
 
-console.log(calcTimer(210));
+// console.log(calcTimer(210));
+
+function arrayChallenge(string = "") {
+  let seperatedWords = string[1].split(",");
+  for (let i = 0; i < string[0].length; i++) {
+    let current = string[0].slice(0, i + 1);
+    let rest = string[0].slice(i + 1);
+    if (seperatedWords.includes(current) && seperatedWords.includes(rest)) {
+      console.log(current, rest);
+    }
+  }
+}
+// arrayChallenge(["hellocat", "apple,bat,cat,goodbye,hello,yellow,why"]);
+
+function search(str = []) {
+  let hash = {};
+  let result = [];
+  for (let i = 0; i < str.length; i++) {
+    let key = str[i].split(":")[0];
+    let value = str[i].split(":")[1];
+    if (hash.hasOwnProperty(key)) {
+      hash[key] = Number(hash[key]) + Number(value);
+    } else {
+      hash[key] = Number(value);
+    }
+  }
+  let newKeyvalues = Object.keys(hash);
+  console.log(newKeyvalues);
+  if (newKeyvalues[0] > newKeyvalues[1]) {
+  } else {
+    newKeyvalues = Object.keys(hash);
+  }
+  let highest = Number.MIN_VALUE;
+  for (let j = 0; j < newKeyvalues.length; j++) {
+    if (hash[newKeyvalues[j]] > 0) {
+      let stringrep = `${newKeyvalues[j]}:${hash[newKeyvalues[j]]}`;
+      // if (hash[newKeyvalues[j]] > highest) {
+      // highest = hash[newKeyvalues[j]];
+      result.push(stringrep);
+      // } else {
+      //   result.unshift(stringrep);
+      // }
+    }
+  }
+  console.log(result.join(","));
+}
+search(["B:-1", "A:1", "B:3", "A:5"]);
